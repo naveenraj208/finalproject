@@ -724,7 +724,9 @@ def log_metrics(conversation_id: str, tokens_before: int, tokens_after: int, rel
     ratio = tokens_before / max(tokens_after, 1)
     print(f"Compression ratio: {ratio:.2f} | Relevant items: {relevant_retrieved}")
 
-
 if __name__ == "__main__":
-    # Run demo when executed directly
+    # Run demo for standalone testing
     demo_workflow()
+    # For API instead, comment the line above and uncomment below:
+    # import uvicorn
+    # uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
