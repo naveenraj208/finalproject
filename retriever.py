@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from db import SessionLocal, MemoryRow
 import numpy as np
 
+
 def _get_rows(conversation_id=None):
     db = SessionLocal()
     if conversation_id:

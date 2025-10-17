@@ -2,6 +2,8 @@
 from memory_manager import MemoryManager
 from config import PROMPT_RESPONSE_RESERVE, TOKEN_BUDGET
 
+
+
 class PromptBuilder:
     def __init__(self, mm: MemoryManager, prompt_token_reserve=PROMPT_RESPONSE_RESERVE):
         self.mm = mm
@@ -24,3 +26,5 @@ class PromptBuilder:
             prompt += f"CONTEXT [{i+1}]: {p}\n\n"
         prompt += f"User: {user_query}\nAssistant:"
         return prompt
+    # prompt_builder.py (snippet augment)
+

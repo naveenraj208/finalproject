@@ -4,6 +4,23 @@ import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["OMP_NUM_THREADS"] = "1"
 os.environ["MKL_NUM_THREADS"] = "1"
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
+
+app = FastAPI(title="LLM Memory Backend (safe-mac)")
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "*"],  # frontend URLs
+    allow_credentials=True,
+    allow_methods=["*"],  # important for OPTIONS
+    allow_headers=["*"],  # important for custom headers like JSON
+)
+
+
 
 # optional: ensure spawn for multiprocessing (macOS friendly)
 import multiprocessing
