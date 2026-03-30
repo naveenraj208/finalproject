@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import uuid
+import random
 
 # ---------------------------
 # Configuration
@@ -238,15 +239,20 @@ with st.sidebar:
         <div style="font-size:0.6rem; text-align:center; opacity:0.5; letter-spacing:3px; margin-bottom:20px;">NEURAL_CORE_ACTIVE</div>
     """, unsafe_allow_html=True)
 
-    # Biometric Simulation (Singularity Feature)
-    import random
+    # Hardware Biometric Telemetry (Physical Machine Stats)
     col1, col2 = st.columns(2)
+    try:
+        hw = requests.get("http://127.0.0.1:8000/hardware_metrics", timeout=2).json()
+        load = hw["load"]
+        sync = hw["sync"]
+    except:
+        load = "--"
+        sync = "--"
+        
     with col1:
-        load = random.randint(15, 85)
-        st.markdown(f"<div class='metric-id'>Cognitive Load</div><div class='metric-value'>{load}%</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='metric-id'>Cognitive Load (CPU)</div><div class='metric-value'>{load}%</div>", unsafe_allow_html=True)
     with col2:
-        sync = random.randint(92, 99)
-        st.markdown(f"<div class='metric-id'>Neural Sync</div><div class='metric-value'>{sync}.{random.randint(0,9)}%</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='metric-id'>Neural Sync (RAM)</div><div class='metric-value'>{sync}%</div>", unsafe_allow_html=True)
     
     st.markdown("---")
     sentience = st.toggle("Sentience Override (BETA)", value=False)

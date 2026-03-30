@@ -1,10 +1,12 @@
 # llm_client.py
 import requests
 from config import OLLAMA_URL, OLLAMA_MODEL
+from functools import lru_cache
 
+@lru_cache(maxsize=256)
 def call_model(prompt: str, model: str = OLLAMA_MODEL, max_tokens: int = 512, temperature: float = 0.0):
     """
-    Calls local Ollama API for generation.
+    Calls local Ollama API for generation with global LRU caching for instant repeats.
     """
     payload = {
         "model": model,

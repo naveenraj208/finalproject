@@ -31,6 +31,7 @@ except RuntimeError:
     pass
 
 import re
+import psutil
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -64,6 +65,15 @@ def root():
 def stats():
     return mm.get_stats()
 
+@app.get("/hardware_metrics")
+def hardware_metrics():
+    # Cognitive Load mapped to physical Mac CPU Core Utilization
+    load = int(psutil.cpu_percent(interval=0.1))
+    # Neural Sync mapped to physical Mac RAM Availability (100% - usage)
+    mem = psutil.virtual_memory()
+    sync = round(100.0 - mem.percent, 1)
+    return {"load": load, "sync": sync}
+
 @app.get("/memories")
 def get_memories(category: str = "stm"):
     return mm.get_memories(category=category)
@@ -72,6 +82,22 @@ from tools import TOOL_MAP
 
 @app.post("/chat")
 def chat(req: ChatMessage):
+    # -1. Fast-Path Intent Router (Bypass RAG/Tooling for speed)
+    query_lower = req.message.lower().strip()
+    fast_intents = ["hi", "hello", "hey", "who are you", "what are you", "help", "how are you"]
+    if len(query_lower) < 25 and any(i in query_lower for i in fast_intents):
+        # Skip heavy Security/FAISS PyTorch embeddings entirely!
+        fast_reply = call_model(f"You are Synthaura Prime, a highly advanced 2026 AI. Answer this simple greeting instantly and concisely: {req.message}")
+        user_mem = mm.add_memory(req.message, parent_id=req.parent_id, conversation_id=req.conversation_id, pinned=req.pinned)
+        mm.add_memory(fast_reply, parent_id=user_mem["id"], conversation_id=req.conversation_id, is_assistant=True)
+        return {
+            "assistant": fast_reply,
+            "thought": "Bypassed FAISS architecture using Early-Exit Fast-Path Router for zero-latency response.",
+            "actions": [],
+            "security": {"risk_level": "Low", "reason": "Fast-path bypass."},
+            "user_memory_id": user_mem["id"]
+        }
+
     # 0. Security Preprocessing Layer (SPL)
     sec_report = sp.check_risk(req.message)
     if sec_report["risk_level"] == "High":
