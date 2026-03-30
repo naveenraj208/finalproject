@@ -37,43 +37,93 @@ THEME_CONFIG = {
     "Modern": {
         "bg": "linear-gradient(180deg, #050510 0%, #1a1a2e 100%)",
         "accent": "#4facfe", "font": "'Outfit', sans-serif", "border": "rgba(255,255,255,0.1)",
-        "bubble_user": "rgba(79, 172, 254, 0.1)", "bubble_bot": "rgba(155, 81, 224, 0.1)"
+        "bubble_user": "rgba(79, 172, 254, 0.1)", "bubble_bot": "rgba(155, 81, 224, 0.1)", "css_anim": ""
     },
     "Hacker": {
         "bg": "#000000", "accent": "#00FF41", "font": "'Courier New', monospace", "border": "#00FF41",
-        "bubble_user": "rgba(0, 255, 65, 0.05)", "bubble_bot": "rgba(0, 255, 65, 0.1)"
+        "bubble_user": "rgba(0, 255, 65, 0.05)", "bubble_bot": "rgba(0, 255, 65, 0.1)",
+        "css_anim": """
+            @keyframes glitchBorder {
+                0% { border-color: #00FF41; transform: translate(0); }
+                20% { border-color: rgba(0,255,65,0.2); transform: translate(-2px, 1px); }
+                40% { border-color: #00FF41; transform: translate(0); }
+                60% { border-color: rgba(0,255,65,0.5); transform: translate(2px, -1px); }
+                80% { border-color: #00FF41; transform: translate(0); }
+                100% { border-color: #00FF41; }
+            }
+            .chat-bubble { animation: glitchBorder 0.2s infinite !important; }
+        """
     },
     "Old School": {
-        "bg": "#1a1a1a", "accent": "#ffb000", "font": "'Lucida Console', monospace", "border": "#ffb000",
-        "bubble_user": "rgba(255, 176, 0, 0.05)", "bubble_bot": "rgba(255, 176, 0, 0.1)"
+        "bg": "#1a1a1a", "accent": "#ffb000", "font": "'Press Start 2P', monospace", "border": "#ffb000",
+        "bubble_user": "rgba(255, 176, 0, 0.05)", "bubble_bot": "rgba(255, 176, 0, 0.1)",
+        "css_anim": """
+            [data-testid="stAppViewContainer"]::after {
+                content: " "; display: block; position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+                background-size: 100% 4px; z-index: 99999; pointer-events: none;
+            }
+            @keyframes crtFlicker {
+                0% { opacity: 0.95; } 5% { opacity: 0.85; } 10% { opacity: 0.95; } 
+                15% { opacity: 1; } 100% { opacity: 1; }
+            }
+            body { animation: crtFlicker 0.15s infinite; }
+            .chat-bubble { border-radius: 0px !important; border: 2px solid #ffb000 !important; }
+        """
     },
     "Cyberpunk": {
         "bg": "#0d0221", "accent": "#ff00ff", "font": "'Big Shoulders Display', sans-serif", "border": "#00ffff",
-        "bubble_user": "rgba(255, 0, 255, 0.1)", "bubble_bot": "rgba(0, 255, 255, 0.1)"
+        "bubble_user": "rgba(255, 0, 255, 0.1)", "bubble_bot": "rgba(0, 255, 255, 0.1)",
+        "css_anim": """
+            @keyframes neonFlicker {
+                0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+                20%, 24%, 55% { text-shadow: none; }
+            }
+            .main-header { animation: neonFlicker 2s infinite alternate !important; }
+        """
     },
     "Solarized": {
         "bg": "#002b36", "accent": "#268bd2", "font": "'Inter', sans-serif", "border": "#586e75",
-        "bubble_user": "rgba(38, 139, 210, 0.1)", "bubble_bot": "rgba(133, 153, 0, 0.1)"
+        "bubble_user": "rgba(38, 139, 210, 0.1)", "bubble_bot": "rgba(133, 153, 0, 0.1)", "css_anim": ""
     },
     "Industrial": {
         "bg": "#2c3e50", "accent": "#bdc3c7", "font": "'Roboto', sans-serif", "border": "#7f8c8d",
-        "bubble_user": "rgba(189, 195, 199, 0.1)", "bubble_bot": "rgba(52, 73, 94, 0.2)"
+        "bubble_user": "rgba(189, 195, 199, 0.1)", "bubble_bot": "rgba(52, 73, 94, 0.2)", "css_anim": ""
     },
     "Ethereal": {
         "bg": "linear-gradient(135deg, #1e1e2f 0%, #2d2a4a 100%)", "accent": "#ff9a9e", "font": "'Quicksand', sans-serif", "border": "rgba(255,255,255,0.2)",
-        "bubble_user": "rgba(255, 154, 158, 0.1)", "bubble_bot": "rgba(161, 140, 209, 0.1)"
+        "bubble_user": "rgba(255, 154, 158, 0.1)", "bubble_bot": "rgba(161, 140, 209, 0.1)",
+        "css_anim": """
+            @keyframes breathingBg { 0% { filter: hue-rotate(0deg) brightness(1); } 50% { filter: hue-rotate(15deg) brightness(1.2); } 100% { filter: hue-rotate(0deg) brightness(1); } }
+            [data-testid="stAppViewContainer"] { animation: breathingBg 15s infinite ease-in-out; }
+        """
     },
     "Crimson": {
         "bg": "#1a0505", "accent": "#ff4d4d", "font": "'Outfit', sans-serif", "border": "#ff4d4d",
-        "bubble_user": "rgba(255, 77, 77, 0.05)", "bubble_bot": "rgba(255, 77, 77, 0.1)"
+        "bubble_user": "rgba(255, 77, 77, 0.05)", "bubble_bot": "rgba(255, 77, 77, 0.1)",
+        "css_anim": """
+            @keyframes heartbeat {
+                0% { transform: scale(1); box-shadow: 0 0 0px #ff4d4d; }
+                14% { transform: scale(1.02); box-shadow: 0 0 10px #ff4d4d; }
+                28% { transform: scale(1); box-shadow: 0 0 0px #ff4d4d; }
+                42% { transform: scale(1.02); box-shadow: 0 0 10px #ff4d4d; }
+                70% { transform: scale(1); box-shadow: 0 0 0px #ff4d4d; }
+            }
+            .chat-bubble { animation: heartbeat 1.5s infinite !important; border-color: #ff4d4d !important; }
+        """
     },
     "Ghost": {
         "bg": "#ffffff", "accent": "#333333", "font": "'Inter', sans-serif", "border": "#eeeeee",
-        "bubble_user": "rgba(0,0,0,0.02)", "bubble_bot": "rgba(0,0,0,0.05)"
+        "bubble_user": "rgba(0,0,0,0.02)", "bubble_bot": "rgba(0,0,0,0.05)", "css_anim": ""
     },
     "Forest": {
         "bg": "#0a1f0a", "accent": "#2ecc71", "font": "'Outfit', sans-serif", "border": "#27ae60",
-        "bubble_user": "rgba(46, 204, 113, 0.05)", "bubble_bot": "rgba(39, 174, 96, 0.1)"
+        "bubble_user": "rgba(46, 204, 113, 0.05)", "bubble_bot": "rgba(39, 174, 96, 0.1)",
+        "css_anim": """
+            @keyframes leafBreathe { 0% { background-color: #0a1f0a; } 50% { background-color: #0e290e; } 100% { background-color: #0a1f0a; } }
+            [data-testid="stAppViewContainer"] { animation: leafBreathe 8s infinite ease-in-out; }
+        """
     }
 }
 
@@ -82,6 +132,8 @@ theme = THEME_CONFIG[st.session_state.ui_mode]
 # Custom CSS for all themes
 st.markdown(f"""
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
         header {{ visibility: hidden; }}
         #MainMenu {{ visibility: hidden; }}
         footer {{ visibility: hidden; }}
@@ -206,6 +258,11 @@ st.markdown(f"""
         # Biometric Metrics Enhancement
         .metric-id {{ font-size: 0.6rem; opacity: 0.5; text-transform: uppercase; }}
         .metric-value {{ font-size: 0.9rem; font-weight: bold; color: {theme['accent']}; }}
+        
+        /* --------------------------- */
+        /* Dynamic Theme Specific CSS  */
+        /* --------------------------- */
+        {theme.get('css_anim', '')}
     </style>
 """, unsafe_allow_html=True)
 
