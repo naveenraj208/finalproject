@@ -37,7 +37,11 @@ THEME_CONFIG = {
     "Modern": {
         "bg": "linear-gradient(180deg, #050510 0%, #1a1a2e 100%)",
         "accent": "#4facfe", "font": "'Outfit', sans-serif", "border": "rgba(255,255,255,0.1)",
-        "bubble_user": "rgba(79, 172, 254, 0.1)", "bubble_bot": "rgba(155, 81, 224, 0.1)", "css_anim": ""
+        "bubble_user": "rgba(79, 172, 254, 0.1)", "bubble_bot": "rgba(155, 81, 224, 0.1)",
+        "css_anim": """
+            @keyframes floatSmooth { 0% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-3px) scale(1.01); box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3); } 100% { transform: translateY(0px) scale(1); } }
+            div.chat-bubble { animation: floatSmooth 4s ease-in-out infinite !important; }
+        """
     },
     "Hacker": {
         "bg": "#000000", "accent": "#00FF41", "font": "'Courier New', monospace", "border": "#00FF41",
@@ -85,11 +89,25 @@ THEME_CONFIG = {
     },
     "Solarized": {
         "bg": "#002b36", "accent": "#268bd2", "font": "'Inter', sans-serif", "border": "#586e75",
-        "bubble_user": "rgba(38, 139, 210, 0.1)", "bubble_bot": "rgba(133, 153, 0, 0.1)", "css_anim": ""
+        "bubble_user": "rgba(38, 139, 210, 0.1)", "bubble_bot": "rgba(133, 153, 0, 0.1)",
+        "css_anim": """
+            @keyframes gridPulse { 0% { filter: contrast(100%); } 50% { filter: contrast(130%); } 100% { filter: contrast(100%); } }
+            div[data-testid="stAppViewContainer"]::before {
+                content: " "; display: block; position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background-image: linear-gradient(#00212b 2px, transparent 2px), linear-gradient(90deg, #00212b 2px, transparent 2px) !important;
+                background-size: 60px 60px !important; z-index: 0; pointer-events: none; opacity: 0.5;
+                animation: gridPulse 4s infinite alternate;
+            }
+        """
     },
     "Industrial": {
         "bg": "#2c3e50", "accent": "#bdc3c7", "font": "'Roboto', sans-serif", "border": "#7f8c8d",
-        "bubble_user": "rgba(189, 195, 199, 0.1)", "bubble_bot": "rgba(52, 73, 94, 0.2)", "css_anim": ""
+        "bubble_user": "rgba(189, 195, 199, 0.1)", "bubble_bot": "rgba(52, 73, 94, 0.2)",
+        "css_anim": """
+            @keyframes mechPulse { 0% { box-shadow: inset 0 0 0px #bdc3c7; border-width: 1px; } 50% { box-shadow: inset 0 0 20px #bdc3c7; border-width: 4px; } 100% { box-shadow: inset 0 0 0px #bdc3c7; border-width: 1px; } }
+            div.chat-bubble { animation: mechPulse 2s infinite linear !important; transition: all 0.2s; border-radius: 0px !important; border-style: dashed !important; border-color: #bdc3c7 !important; }
+        """
     },
     "Ethereal": {
         "bg": "linear-gradient(135deg, #1e1e2f 0%, #2d2a4a 100%)", "accent": "#ff9a9e", "font": "'Quicksand', sans-serif", "border": "rgba(255,255,255,0.2)",
@@ -115,7 +133,11 @@ THEME_CONFIG = {
     },
     "Ghost": {
         "bg": "#ffffff", "accent": "#333333", "font": "'Inter', sans-serif", "border": "#eeeeee",
-        "bubble_user": "rgba(0,0,0,0.02)", "bubble_bot": "rgba(0,0,0,0.05)", "css_anim": ""
+        "bubble_user": "rgba(0,0,0,0.02)", "bubble_bot": "rgba(0,0,0,0.05)",
+        "css_anim": """
+            @keyframes wispFade { 0% { opacity: 0.9; filter: blur(0px); } 50% { opacity: 0.4; filter: blur(3px); } 100% { opacity: 0.9; filter: blur(0px); } }
+            div.chat-bubble { animation: wispFade 4s infinite alternate !important; border-color: rgba(0,0,0,0.1) !important; }
+        """
     },
     "Forest": {
         "bg": "#0a1f0a", "accent": "#2ecc71", "font": "'Outfit', sans-serif", "border": "#27ae60",
@@ -139,6 +161,7 @@ st.markdown(f"""
         footer {{ visibility: hidden; }}
         
         [data-testid="stAppViewContainer"] {{
+            background-color: {theme['bg']} !important;
             background: {theme['bg']} !important;
             font-family: {theme['font']};
             color: {theme['accent'] if st.session_state.ui_mode != 'Ghost' else '#333'} !important;
@@ -227,7 +250,9 @@ st.markdown(f"""
             border: 1px solid {theme['border']};
             max-width: 85%;
             backdrop-filter: blur(10px);
+            /* Base animation, will be overridden by custom themes */
             animation: borderGlow 4s infinite ease-in-out;
+            position: relative;
         }}
         .user {{ background: {theme['bubble_user']}; margin-left: auto; text-align: right; }}
         .bot {{ background: {theme['bubble_bot']}; }}
