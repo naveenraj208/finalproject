@@ -271,7 +271,6 @@ with st.sidebar:
     except: st.error("Offline")
 
     st.divider()
-    pin = st.toggle("Persistent Capture")
     if st.button("Reset Neural Core", use_container_width=True):
         st.session_state.messages = []
         st.session_state.conversation_id = str(uuid.uuid4())
@@ -305,9 +304,35 @@ for m in st.session_state.messages:
     st.markdown(f"<div style='font-size:0.7rem; opacity:0.5; margin-bottom: -10px; {'text-align:right;' if cls=='user' else ''}'>{persona}</div>", unsafe_allow_html=True)
     st.markdown(f"<div class='chat-bubble {cls}'>{label}{m['content']}</div>", unsafe_allow_html=True)
 
-if cmd := st.chat_input("Input command..."):
+# ---------------------------
+# Custom Agent Override UI & Chat Input
+# ---------------------------
+st.markdown("---")
+
+col_in, col_opt = st.columns([5, 1])
+with col_opt:
+    with st.popover("⚙️ Options"):
+        pin = st.toggle("📌 Pin Output to Memory")
+        use_agent = st.toggle("🤖 Use as Agent")
+        if use_agent:
+            custom_agent_str = st.text_input("Agent Role", placeholder="e.g. Tester, Politician")
+        else:
+            custom_agent_str = None
+
+with col_in:
+    with st.form("chat_form", clear_on_submit=True, border=False):
+        col_c, col_b = st.columns([8, 1])
+        with col_c:
+            cmd = st.text_input("Command", placeholder="Input command...", label_visibility="collapsed")
+        with col_b:
+            submitted = st.form_submit_button("Send")
+
+if submitted and cmd:
     st.session_state.messages.append({"role": "user", "content": cmd, "pinned": pin})
-    st.markdown(f"<div class='chat-bubble user'>{'[PINNED] ' if pin else ''}{cmd}</div>", unsafe_allow_html=True)
+    
+    # Indicate custom agent in the UI message if used
+    agent_label = f"[AGENT: {custom_agent_str.upper()}] " if use_agent and custom_agent_str else ""
+    st.markdown(f"<div class='chat-bubble user'>{'[PINNED] ' if pin else ''}{agent_label}{cmd}</div>", unsafe_allow_html=True)
 
     with st.spinner("Processing..."):
         try:
@@ -316,8 +341,9 @@ if cmd := st.chat_input("Input command..."):
                 "conversation_id": st.session_state.conversation_id, 
                 "pinned": pin, 
                 "mode": st.session_state.ui_mode,
-                "sentient": sentience
-            }, timeout=60)
+                "sentient": sentience,
+                "custom_agent": custom_agent_str
+            }, timeout=90)
             if r.status_code == 200:
                 data = r.json()
                 st.markdown(f"<div class='chat-bubble bot'>{data['assistant']}</div>", unsafe_allow_html=True)
@@ -327,6 +353,9 @@ if cmd := st.chat_input("Input command..."):
                     with st.expander("Analysis Trace"): st.write(data['thought'])
                 for a in data.get('actions', []):
                     st.info(f"System Action: {a['tool']} -> {a['result']}")
-                st.rerun()
+            else:
+                st.error("Neural core rejected the payload (500 Error)")
         except Exception as e:
             st.error(f"Loss of Signal: {e}")
+        # Always rerun to flush state properly
+        st.rerun()

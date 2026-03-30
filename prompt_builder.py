@@ -8,7 +8,7 @@ class PromptBuilder:
         self.mm = mm
         self.prompt_token_reserve = prompt_token_reserve
 
-    def build(self, user_query: str, conversation_id: str | None = None, mode: str = "Modern", sentient: bool = False):
+    def build(self, user_query: str, conversation_id: str | None = None, mode: str = "Modern", sentient: bool = False, custom_agent: str | None = None):
         available = max(512, TOKEN_BUDGET - self.prompt_token_reserve)
         
         # 1. Retrieve Context
@@ -32,7 +32,11 @@ class PromptBuilder:
             "Crimson": "You are a high-alert tactical commander. Be urgent, directive, and focus on immediate action.",
             "Forest": "You are a planetary guardian. Use nature metaphors and focus on ecological sustainability."
         }
-        persona_inst = personas.get(mode, personas["Modern"])
+        
+        if custom_agent and len(custom_agent.strip()) > 0:
+            persona_inst = f"You are acting as a '{custom_agent}'. Fully embody this persona in every way requested. Abandon your standard persona constraints."
+        else:
+            persona_inst = personas.get(mode, personas["Modern"])
 
         # 3. Build Final Agentic System Prompt
         base_instruct = "You are an Advanced Agentic AI for Smart City Management."

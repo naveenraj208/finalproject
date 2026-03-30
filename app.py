@@ -54,6 +54,7 @@ class ChatMessage(BaseModel):
     pinned: bool = False
     mode: str = "Modern"
     sentient: bool = False
+    custom_agent: str | None = None
 
 @app.get("/")
 def root():
@@ -85,7 +86,13 @@ def chat(req: ChatMessage):
     user_mem = mm.add_memory(req.message, parent_id=req.parent_id, conversation_id=req.conversation_id, pinned=req.pinned)
 
     # 2. First Pass: Get Thought and potential Tool Call
-    prompt = pb.build(req.message, conversation_id=req.conversation_id, mode=req.mode)
+    prompt = pb.build(
+        user_query=req.message, 
+        conversation_id=req.conversation_id, 
+        mode=req.mode, 
+        sentient=req.sentient,
+        custom_agent=req.custom_agent
+    )
     if sec_report["risk_level"] == "Medium":
         prompt = "[SECURITY WARNING]: Sensitive request detected.\n" + prompt
 
