@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+__pycache__/
+*.pyc
+memory.db
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Environment
+venv/
+env/
+.env
+
+# MacOS
+.DS_Store
+
+# Pytest and coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.swn
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Application specific (Databases & Uploads)
+*.db
+memory.db
+kb_meta.db
+knowledge.index
+smart_city_dataset_500.xlsx
+smart_city_responses.xlsx
