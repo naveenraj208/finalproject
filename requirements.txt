@@ -5,3 +5,9 @@ pydantic
 requests
 python-dotenv
 scikit-learn
+faiss-cpu
+sentence-transformers
+pandas
+openpyxl
+numpy
+streamlit

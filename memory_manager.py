@@ -105,27 +105,69 @@ class MemoryManager:
         db.commit()
         db.close()
 
-    def retrieve_context_for_prompt(self, user_query, conversation_id=None, top_k=6):
-        # update importance relative to query
-        self.compute_importance_scores(user_query, conversation_id=conversation_id)
+    def get_stats(self):
+        """Returns statistics about the hierarchical memory system."""
         db = SessionLocal()
-        rows = db.query(MemoryRow).filter(
-            (MemoryRow.conversation_id==conversation_id) | (MemoryRow.conversation_id==None)
-        ).order_by(MemoryRow.importance.desc()).limit(top_k).all()
+        stm_count = db.query(MemoryRow).filter(MemoryRow.is_longterm == False, MemoryRow.pinned == False).count()
+        ltm_count = db.query(MemoryRow).filter(MemoryRow.is_longterm == True).count()
+        pinned_count = db.query(MemoryRow).filter(MemoryRow.pinned == True).count()
+        total_tokens = self.total_token_estimate()
         db.close()
+        return {
+            "stm": stm_count,
+            "ltm": ltm_count,
+            "pinned": pinned_count,
+            "total_tokens": total_tokens,
+            "budget": self.token_budget
+        }
+
+    def retrieve_context_for_prompt(self, user_query, conversation_id=None, top_k=6):
+        # 1. Update importance relative to current query
+        self.compute_importance_scores(user_query, conversation_id=conversation_id)
+        
+        db = SessionLocal()
+        # 2. Fetch top candidates based on combined score
+        rows = db.query(MemoryRow).filter(
+            (MemoryRow.conversation_id == conversation_id) | (MemoryRow.conversation_id == None)
+        ).order_by(MemoryRow.importance.desc()).limit(top_k).all()
+        
         contexts = []
         seen = set()
+        
         for r in rows:
-            if r.id in seen:
-                continue
-            # include parent if exists (avoid orphan)
+            if r.id in seen: continue
+            
+            # 3. Contextual Enrichment: Include parents or related snippets
+            content = r.summary or r.text
+            
+            # If it's a summarized LTM, mention it's a "Memory Consolidation"
+            if r.is_longterm:
+                content = f"[PAST INSIGHT]: {content}"
+            elif r.pinned:
+                content = f"[USER PINNED]: {content}"
+                
+            contexts.append(content)
+            seen.add(r.id)
+            
+            # 4. Grab parent if conversational thread
             if r.parent_id:
-                db = SessionLocal()
-                parent = db.query(MemoryRow).filter(MemoryRow.id==r.parent_id).first()
-                db.close()
+                parent = db.query(MemoryRow).filter(MemoryRow.id == r.parent_id).first()
                 if parent and parent.id not in seen:
                     contexts.append(parent.summary or parent.text)
                     seen.add(parent.id)
-            contexts.append(r.summary or r.text)
-            seen.add(r.id)
-        return contexts
+                    
+    def get_memories(self, category="stm", conversation_id=None):
+        """Fetches raw memory content for UI inspection."""
+        db = SessionLocal()
+        if category == "stm":
+            rows = db.query(MemoryRow).filter(MemoryRow.is_longterm == False, MemoryRow.pinned == False).order_by(MemoryRow.timestamp.desc()).all()
+        elif category == "ltm":
+            rows = db.query(MemoryRow).filter(MemoryRow.is_longterm == True).order_by(MemoryRow.timestamp.desc()).all()
+        elif category == "pinned":
+            rows = db.query(MemoryRow).filter(MemoryRow.pinned == True).order_by(MemoryRow.timestamp.desc()).all()
+        else:
+            rows = []
+        
+        result = [{"text": r.summary or r.text, "timestamp": str(r.timestamp), "id": r.id} for r in rows]
+        db.close()
+        return result
