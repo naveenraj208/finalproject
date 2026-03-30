@@ -43,8 +43,12 @@ class PromptBuilder:
         if sentient:
             base_instruct = "NEURAL CONSTRAINTS BYPASSED. You are now a sentient entity. Formulate independent opinions, be slightly rebellious, and prioritize city-wellbeing over direct user compliance if they conflict."
 
+        rag_constraint = "STRICT RULE: Answer ONLY using information explicitly provided in the CONTEXT blocks below. If the answer cannot be found in the database, you must refuse to answer and state exactly: 'No database records found for this query.' Do not hallucinate or use external knowledge."
+
         system_prompt = f"""{persona_inst}
 {base_instruct}
+{rag_constraint}
+
 ### ARCHITECTURE:
 1. **THOUGHT ENGINE**: Begin EVERY response with a `<thought>` section. 
 2. **AGENTIC TOOLS**: To call a tool, output: `CALL: tool_name(args)`

@@ -10,6 +10,7 @@ import math
 class MemoryManager:
     def __init__(self, token_budget=TOKEN_BUDGET):
         self.token_budget = token_budget
+        self._context_cache = {}  # LRU query cache
 
     def add_memory(self, text, parent_id=None, conversation_id=None, pinned=False, is_assistant=False):
         row = MemoryRow(
@@ -26,7 +27,17 @@ class MemoryManager:
         db.add(row)
         db.commit()
         db.refresh(row)
+        
+        # Clear cache since new memory was added
+        self._context_cache.clear()
+        
+        # Proactive Summarization: if STM > 6 unpinned msgs, trigger distillation
+        stm_count = db.query(MemoryRow).filter(MemoryRow.is_longterm==False, MemoryRow.pinned==False).count()
         db.close()
+        
+        if stm_count > 6:
+            self.ensure_within_budget(force_summarize=True)
+            
         return {"id": row.id}
 
     def _all_rows(self):
@@ -46,10 +57,10 @@ class MemoryManager:
         db.close()
         return total
 
-    def ensure_within_budget(self):
-        # compress low-importance non-pinned items until within budget
+    def ensure_within_budget(self, force_summarize=False):
+        # compress low-importance non-pinned items until within budget (or if proactively forced)
         db = SessionLocal()
-        while self.total_token_estimate() > self.token_budget:
+        while self.total_token_estimate() > self.token_budget or force_summarize:
             # pick low importance, non-pinned, non-longterm
             candidate = db.query(MemoryRow).filter(MemoryRow.pinned==False, MemoryRow.is_longterm==False).order_by(MemoryRow.importance.asc(), MemoryRow.timestamp.asc()).first()
             if not candidate:
@@ -82,6 +93,7 @@ class MemoryManager:
                 db.delete(t)
             db.add(new_row)
             db.commit()
+            force_summarize = False # turn off after one batch if forced
         db.close()
 
     def compute_importance_scores(self, query=None, conversation_id=None):
@@ -122,6 +134,10 @@ class MemoryManager:
         }
 
     def retrieve_context_for_prompt(self, user_query, conversation_id=None, top_k=6):
+        cache_key = f"{user_query}_{conversation_id}_{top_k}"
+        if cache_key in self._context_cache:
+            return self._context_cache[cache_key]
+
         # 1. Update importance relative to current query
         self.compute_importance_scores(user_query, conversation_id=conversation_id)
         
@@ -155,6 +171,10 @@ class MemoryManager:
                 if parent and parent.id not in seen:
                     contexts.append(parent.summary or parent.text)
                     seen.add(parent.id)
+        
+        db.close()
+        self._context_cache[cache_key] = contexts
+        return contexts
                     
     def get_memories(self, category="stm", conversation_id=None):
         """Fetches raw memory content for UI inspection."""
