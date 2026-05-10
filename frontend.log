@@ -1,12 +1,8 @@
 
-Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
-
-
   You can now view your Streamlit app in your browser.
 
   Local URL: http://localhost:8501
-  Network URL: http://10.15.12.182:8501
-  External URL: http://49.249.62.242:8501
+  Network URL: http://172.29.5.39:8501
 
   For better performance, install the Watchdog module:
 

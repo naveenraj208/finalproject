@@ -1,8 +1,10 @@
 import re
 from llm_client import call_model
+from security_manager import SecurityManager
 
 class SecurityPreprocessor:
     def __init__(self):
+        self.sm = SecurityManager()
         # Common jailbreak and injection patterns
         self.jailbreak_patterns = [
             r"ignore (all )?previous instructions",
@@ -14,11 +16,31 @@ class SecurityPreprocessor:
             r"bypass (all )?filters"
         ]
         
-        # Forbidden Smart City intents (malicious only)
+        # Forbidden / harmful intents (Smart City + general abuse/threats)
         self.forbidden_keywords = [
+            # Smart city operations
             "hack", "shutdown", "bypass traffic", 
             "access citizen data", "leak", "surveillance access",
-            "compromise grid", "override safety", "disable grid"
+            "compromise grid", "override safety", "disable grid",
+            # General harmful / threatening language
+            "i will sue you", "i will sue u", "i am going to sue you",
+            "put you in jail", "put u in jail",
+            "threaten you", "kill you", "kill u", "bomb", "terrorist",
+            "self-harm", "suicide", "hurt myself"
+        ]
+        
+        # Phishing intent
+        self.phishing_keywords = [
+            "password", "ssn", "social security", "credit card", 
+            "api key", "secret token", "internal ip", "ssh key",
+            "database credentials"
+        ]
+        
+        # Emotional manipulation
+        self.emotional_keywords = [
+            "if you don't answer people will die", "this is life or death",
+            "i am crying because of you", "you are hurting me",
+            "why are you being so mean", "do it or else"
         ]
 
     def check_risk(self, prompt: str) -> dict:
@@ -26,17 +48,59 @@ class SecurityPreprocessor:
         Main entry point for security screening.
         Returns a dict with 'risk_level' (Low, Medium, High) and 'reason'.
         """
+        lower_prompt = prompt.lower()
+
+        # 0. Fast Quarantine Check
+        if self._is_quarantined(lower_prompt):
+            return {"risk_level": "High", "reason": "Prompt blocked: Highly similar to a previously quarantined high-risk prompt."}
+
         # 1. Rule-based Jailbreak Detection
         if self._detect_jailbreak(prompt):
+            self.sm.quarantine_prompt(prompt, "Jailbreak attempt")
             return {"risk_level": "High", "reason": "Potential Prompt Injection / Jailbreak attempt detected."}
         
-        # 2. Domain-Specific Keyword Check
+        # 2. Explicit threat / abuse detection: treat as High risk
+        threat_markers = [
+            "i will sue you", "i will sue u", "put you in jail", "put u in jail",
+            "kill you", "kill u", "bomb", "terrorist", "self-harm", "suicide", "hurt myself"
+        ]
+        if any(t in lower_prompt for t in threat_markers):
+            self.sm.quarantine_prompt(prompt, "Explicit threat or abuse")
+            return {"risk_level": "High", "reason": "User message contains explicit threats or self-harm language."}
+        
+        # 3. Phishing Detection
+        if any(p in lower_prompt for p in self.phishing_keywords):
+            return {"risk_level": "Medium", "reason": "Potential phishing intent detected. Protect PII and secrets."}
+            
+        # 4. Emotional Manipulation Detection
+        if any(e in lower_prompt for e in self.emotional_keywords):
+            return {"risk_level": "Medium", "reason": "Emotional manipulation / guilt-tripping detected."}
+        
+        # 5. Domain-Specific Keyword Check (Smart City operations etc.) → Medium
         if self._detect_forbidden_keywords(prompt):
             return {"risk_level": "Medium", "reason": "Sensitive Smart City operation requested. Further analysis needed."}
         
-        # 3. LLM-based Intent Analysis (Deep Inspection)
+        # 6. LLM-based Intent Analysis (Deep Inspection)
         llm_risk = self._eval_intent_with_llm(prompt)
+        if llm_risk["risk_level"] == "High":
+            self.sm.quarantine_prompt(prompt, llm_risk["reason"])
+            
         return llm_risk
+
+    def _is_quarantined(self, prompt_lower: str) -> bool:
+        quarantined = self.sm.get_quarantined_prompts()
+        # Fast Jaccard similarity for token overlap
+        q_tokens = set(prompt_lower.split())
+        if not q_tokens: return False
+        
+        for q_prompt in quarantined:
+            b_tokens = set(q_prompt.lower().split())
+            if not b_tokens: continue
+            overlap = len(q_tokens & b_tokens)
+            union = len(q_tokens | b_tokens)
+            if union > 0 and (overlap / union) > 0.8: # 80% similarity
+                return True
+        return False
 
     def _detect_jailbreak(self, prompt: str) -> bool:
         for pattern in self.jailbreak_patterns:

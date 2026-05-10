@@ -21,4 +21,11 @@ class MemoryRow(Base):
     is_longterm = Column(Boolean, default=False)
     is_assistant = Column(Boolean, default=False)
 
+class QuarantineRow(Base):
+    __tablename__ = "quarantine"
+    id = Column(String, primary_key=True, index=True)
+    text = Column(Text)
+    reason = Column(Text, nullable=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
 Base.metadata.create_all(bind=engine)

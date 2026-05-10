@@ -1,0 +1,1264 @@
+{
+  "flow": {
+    "flow": {
+      "flowId": "2c6eca61-7493-4af4-a055-a0fb009c5a53",
+      "displayName": "Delivery",
+      "transitionEvents": [ {
+        "condition": {
+          "restriction": {
+            "comparator": "EQUALS",
+            "lhs": {
+              "member": {
+                "expressions": [ {
+                  "value": "$session"
+                }, {
+                  "value": "params"
+                }, {
+                  "value": "operation"
+                } ]
+              }
+            },
+            "rhs": {
+              "phrase": {
+                "values": [ "Service Appreciation" ]
+              }
+            }
+          }
+        },
+        "transitionEventHandler": {
+          "beforeTransition": {
+          
+          },
+          "targetPageId": "8221996e-6cc4-4b1b-be60-9669dc21ee8a"
+        },
+        "name": "37768b56-6547-4cba-9bf3-28cf6917f833",
+        "conditionString": "$session.params.operation = \"Service Appreciation\""
+      }, {
+        "condition": {
+          "restriction": {
+            "comparator": "EQUALS",
+            "lhs": {
+              "member": {
+                "expressions": [ {
+                  "value": "$session"
+                }, {
+                  "value": "params"
+                }, {
+                  "value": "operation"
+                } ]
+              }
+            },
+            "rhs": {
+              "phrase": {
+                "values": [ "Safe Delivery" ]
+              }
+            }
+          }
+        },
+        "transitionEventHandler": {
+          "beforeTransition": {
+            "playbackInterruptionSettings": {
+            
+            },
+            "dtmfSettings": {
+              "useSystemEntityRule": false
+            }
+          },
+          "targetPageId": "e5493279-a328-468c-ac15-44784d8cc8d7"
+        },
+        "name": "c58458bf-dba3-4b9f-b590-bcc58d56add4",
+        "conditionString": "$session.params.operation = \"Safe Delivery\""
+      }, {
+        "condition": {
+          "restriction": {
+            "comparator": "EQUALS",
+            "lhs": {
+              "member": {
+                "expressions": [ {
+                  "value": "$session"
+                }, {
+                  "value": "params"
+                }, {
+                  "value": "operation"
+                } ]
+              }
+            },
+            "rhs": {
+              "phrase": {
+                "values": [ "Delivery Charge" ]
+              }
+            }
+          }
+        },
+        "transitionEventHandler": {
+          "beforeTransition": {
+          
+          },
+          "targetPageId": "3da785ed-4213-42bf-863f-2841bffa6bea"
+        },
+        "name": "0860aeaf-8d0d-4ce0-b930-476a827d35b7",
+        "conditionString": "$session.params.operation = \"Delivery Charge\""
+      }, {
+        "condition": {
+          "restriction": {
+            "comparator": "EQUALS",
+            "lhs": {
+              "member": {
+                "expressions": [ {
+                  "value": "$session"
+                }, {
+                  "value": "params"
+                }, {
+                  "value": "operation"
+                } ]
+              }
+            },
+            "rhs": {
+              "phrase": {
+                "values": [ "Delivery Collection" ]
+              }
+            }
+          }
+        },
+        "transitionEventHandler": {
+          "beforeTransition": {
+          
+          },
+          "targetPageId": "303ead08-dcf1-4b0f-a70a-d29a60edfd79"
+        },
+        "name": "1d18b352-cbf6-4898-9c22-67fa67206386",
+        "conditionString": "$session.params.operation = \"Delivery Collection\""
+      }, {
+        "condition": {
+          "restriction": {
+            "comparator": "EQUALS",
+            "lhs": {
+              "member": {
+                "expressions": [ {
+                  "value": "$session"
+                }, {
+                  "value": "params"
+                }, {
+                  "value": "operation"
+                } ]
+              }
+            },
+            "rhs": {
+              "phrase": {
+                "values": [ "Delivery ETA Change" ]
+              }
+            }
+          }
+        },
+        "transitionEventHandler": {
+          "beforeTransition": {
+          
+          },
+          "targetPageId": "5c6d5103-6ff8-442a-a51e-99bc1597c010"
+        },
+        "name": "3abc2d99-bbd2-4481-a40e-193cbec1f819",
+        "conditionString": "$session.params.operation = \"Delivery ETA Change\""
+      }, {
+        "condition": {
+          "restriction": {
+            "comparator": "EQUALS",
+            "lhs": {
+              "member": {
+                "expressions": [ {
+                  "value": "$session"
+                }, {
+                  "value": "params"
+                }, {
+                  "value": "operation"
+                } ]
+              }
+            },
+            "rhs": {
+              "phrase": {
+                "values": [ "Delivery ETA Order Tracking" ]
+              }
+            }
+          }
+        },
+        "transitionEventHandler": {
+          "beforeTransition": {
+          
+          },
+          "targetPageId": "6cb7ca25-c855-42b8-b9b3-f9a5e3ef2374"
+        },
+        "name": "6d176200-6208-4ce4-83e9-091891981118",
+        "conditionString": "$session.params.operation = \"Delivery ETA Order Tracking\""
+      }, {
+        "condition": {
+          "restriction": {
+            "comparator": "EQUALS",
+            "lhs": {
+              "member": {
+                "expressions": [ {
+                  "value": "$session"
+                }, {
+                  "value": "params"
+                }, {
+                  "value": "operation"
+                } ]
+              }
+            },
+            "rhs": {
+              "phrase": {
+                "values": [ "Postcode Delivery" ]
+              }
+            }
+          }
+        },
+        "transitionEventHandler": {
+          "beforeTransition": {
+          
+          },
+          "targetPageId": "124c2ea8-25e8-4763-88a5-d2118453a87e"
+        },
+        "name": "7e13f1e8-b519-4ceb-bcfd-7b1cbe644b7d",
+        "conditionString": "$session.params.operation = \"Postcode Delivery\""
+      } ],
+      "modelIdentifier": {
+        "modelId": "7c6d58e4-dbe5-4b5a-858a-43ec483e7270"
+      },
+      "conversationEvents": [ {
+        "event": "sys.no-match-default",
+        "handler": {
+          "beforeTransition": {
+            "staticUserResponse": {
+              "candidates": [ {
+                "selector": {
+                  "platform": [ "PLATFORM_UNSPECIFIED" ],
+                  "lang": "en"
+                },
+                "responses": [ {
+                  "text": {
+                    "variants": [ {
+                      "text": "I didn't get that. Can you say it again?"
+                    }, {
+                      "text": "I missed what you said. What was that?"
+                    }, {
+                      "text": "Sorry, could you say that again?"
+                    }, {
+                      "text": "Sorry, can you say that again?"
+                    }, {
+                      "text": "Can you say that again?"
+                    }, {
+                      "text": "Sorry, I didn't get that. Can you rephrase?"
+                    }, {
+                      "text": "Sorry, what was that?"
+                    }, {
+                      "text": "One more time?"
+                    }, {
+                      "text": "What was that?"
+                    }, {
+                      "text": "Say that one more time?"
+                    }, {
+                      "text": "I didn't get that. Can you repeat?"
+                    }, {
+                      "text": "I missed that, say that again?"
+                    } ]
+                  }
+                } ]
+              } ]
+            }
+          }
+        },
+        "name": "50a6ea5b-3608-4cf1-a764-0c1fcb51e825"
+      }, {
+        "event": "sys.no-input-default",
+        "handler": {
+          "beforeTransition": {
+            "staticUserResponse": {
+              "candidates": [ {
+                "selector": {
+                  "platform": [ "PLATFORM_UNSPECIFIED" ],
+                  "lang": "en"
+                },
+                "responses": [ {
+                  "text": {
+                    "variants": [ {
+                      "text": "I didn't get that. Can you say it again?"
+                    }, {
+                      "text": "I missed what you said. What was that?"
+                    }, {
+                      "text": "Sorry, could you say that again?"
+                    }, {
+                      "text": "Sorry, can you say that again?"
+                    }, {
+                      "text": "Can you say that again?"
+                    }, {
+                      "text": "Sorry, I didn't get that. Can you rephrase?"
+                    }, {
+                      "text": "Sorry, what was that?"
+                    }, {
+                      "text": "One more time?"
+                    }, {
+                      "text": "What was that?"
+                    }, {
+                      "text": "Say that one more time?"
+                    }, {
+                      "text": "I didn't get that. Can you repeat?"
+                    }, {
+                      "text": "I missed that, say that again?"
+                    } ]
+                  }
+                } ]
+              } ]
+            }
+          }
+        },
+        "name": "86e49de9-c195-43e3-bdc5-3e3f9bfcadca"
+      } ],
+      "nluSettings": {
+        "classificationThreshold": 0.30000001,
+        "modelType": "MODEL_TYPE_ADVANCED",
+        "modelTrainingMode": "MODEL_TRAINING_MODE_AUTOMATIC",
+        "customConfigKey": "bd93ad6a-fb15-411e-9a79-f29c6454ce57",
+        "multiIntentSettings": {
+        
+        }
+      },
+      "ivrSettings": {
+        "enableIvr": true
+      },
+      "etag": "67b62714",
+      "nluSettingsMapping": [ {
+        "key": "en",
+        "value": {
+          "classificationThreshold": 0.30000001,
+          "modelType": "MODEL_TYPE_ADVANCED",
+          "modelTrainingMode": "MODEL_TRAINING_MODE_AUTOMATIC",
+          "customConfigKey": "bd93ad6a-fb15-411e-9a79-f29c6454ce57",
+          "multiIntentSettings": {
+          
+          },
+          "languageCode": "en"
+        }
+      } ]
+    },
+    "intents": [ {
+      "meta": {
+        "id": "b0eb972a-d82a-4077-90a1-bb1739fba6c7",
+        "displayName": "opt_more_help",
+        "priority": 500000,
+        "etag": "691b39d8"
+      },
+      "trainingPhrases": [ {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Keep helping me with this problem"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I still need support from the bot"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Continue assisting me please"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Explain this in more detail"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I want to ask another question"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Help me with something else as well"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I need further support on this"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Can you continue helping me?"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Please give me more details"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I have another question about my order"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I still need more assistance"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I need more help with my issue"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "\"Yes, I need more help\""
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      } ]
+    }, {
+      "meta": {
+        "id": "5b64eddb-b99e-4d3e-9c2f-98bd10689226",
+        "displayName": "opt_agent",
+        "priority": 500000,
+        "etag": "691b4870"
+      },
+      "trainingPhrases": [ {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Move this chat to an agent"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I prefer a human agent"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Send me to the support team"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Talk to a support agent"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I need a human to help me"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Put me through to a person"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Connect me with customer support"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I want to chat with support"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Let me talk to a human agent"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Please transfer me to an agent"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I want to speak to an agent"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Connect me to an agent"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "\"I would like to speak with an agent\"",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      } ]
+    }, {
+      "meta": {
+        "id": "c8933050-b841-4968-a318-9cb1e6815180",
+        "displayName": "opt_end",
+        "priority": 500000,
+        "etag": "691b39ba"
+      },
+      "trainingPhrases": [ {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "This support session can end",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "You can stop assisting me",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I’m finished with this chat",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "The chat can be closed now",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "That’s all I needed today",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "That is everything for now",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "You can end the conversation",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "No more help is needed",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "We can stop here",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Finish this conversation",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "Please close this chat",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "End this chat",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "\"No, thank you\""
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      } ]
+    }, {
+      "meta": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "displayName": "default_negative",
+        "priority": 500000,
+        "isFallback": true,
+        "etag": "67d22419"
+      },
+      "trainingPhrases": [ {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I cannot say"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I have no clue"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I am not sure"
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I'm not looking for that",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I'm not sure",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      }, {
+        "type": "EXAMPLE",
+        "parts": [ {
+          "text": "I don't know",
+          "userDefined": true
+        } ],
+        "timesAddedCount": 1,
+        "lang": "en"
+      } ]
+    } ],
+    "pages": [ {
+      "key": "124c2ea8-25e8-4763-88a5-d2118453a87e",
+      "value": {
+        "displayName": "Postcode Delivery",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "text": {
+                  "variants": [ {
+                    "text": "For questions or queries regarding the deliveries to your address please reach out to the store directly and they will provide information on the services they provide."
+                  } ]
+                }
+              } ]
+            } ]
+          },
+          "function": {
+            "name": "visit_count",
+            "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+          }
+        },
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "GLOBAL",
+              "rhs": {
+                "value": "true"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "a59ddbf5-875b-476e-b877-c56dcda4446a"
+          },
+          "name": "c5dae685-04c5-41bc-a37b-8e8d583974bd",
+          "conditionString": "true"
+        } ],
+        "etag": "687e264b"
+      }
+    }, {
+      "key": "2fc22bfd-70c6-486e-9b6c-38682a35fc52",
+      "value": {
+        "displayName": "Not Resolved",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "payload": {
+                  "input": {
+                    "options": [ "No, Thank You", "I would like to speak with an agent" ],
+                    "type": "select"
+                  },
+                  "platform": "ZOHOSALESIQ",
+                  "replies": [ "Is there anything else I can help you with?" ]
+                }
+              } ]
+            } ]
+          }
+        },
+        "transitionEvents": [ {
+          "triggerIntentId": "c8933050-b841-4968-a318-9cb1e6815180",
+          "transitionEventHandler": {
+            "beforeTransition": {
+              "staticUserResponse": {
+                "candidates": [ {
+                  "selector": {
+                    "platform": [ "PLATFORM_UNSPECIFIED" ],
+                    "lang": "en"
+                  },
+                  "responses": [ {
+                    "payload": {
+                      "action": "end",
+                      "platform": "ZOHOSALESIQ",
+                      "replies": [ "Thank you for reaching out to Foodhub. Have a nice day!" ]
+                    }
+                  } ]
+                } ]
+              }
+            },
+            "targetPageId": "END_SESSION"
+          },
+          "name": "7dcacd7a-d278-4642-a1e2-76269a1fbde2"
+        }, {
+          "triggerIntentId": "5b64eddb-b99e-4d3e-9c2f-98bd10689226",
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetFlowId": "50aadfd2-61f5-47c2-9e9c-419c3a56857f"
+          },
+          "name": "896c58df-ee8a-439e-bee4-286675e0e260"
+        } ],
+        "etag": "68fb2b6d"
+      }
+    }, {
+      "key": "303ead08-dcf1-4b0f-a70a-d29a60edfd79",
+      "value": {
+        "displayName": "Delivery Collection",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "text": {
+                  "variants": [ {
+                    "text": "To view the delivery or collection wait times, please follow these simple steps: \n1. Enter your postcode in the search option.\n2. Select the store you would like to order from.\n3. The delivery and collection times will be displayed on your screen.\nFor orders already placed, you can find the estimated completion time of your order on the order tracking screen.\nIf you need any help with this process, please don’t hesitate to let us know!"
+                  } ]
+                }
+              } ]
+            } ]
+          },
+          "function": {
+            "name": "visit_count",
+            "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+          }
+        },
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "GLOBAL",
+              "rhs": {
+                "value": "true"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+              "function": {
+                "name": "visit_count",
+                "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+              }
+            },
+            "targetPageId": "a59ddbf5-875b-476e-b877-c56dcda4446a"
+          },
+          "name": "6bac6259-5491-49ab-82c3-ac0f3555a76d",
+          "conditionString": "true"
+        } ],
+        "etag": "68822214"
+      }
+    }, {
+      "key": "3da785ed-4213-42bf-863f-2841bffa6bea",
+      "value": {
+        "displayName": "Delivery Charge",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "text": {
+                  "variants": [ {
+                    "text": "Thank you for reaching out to us regarding the delivery charges. Please note that delivery charges are set by the stores. For further information, please contact the store directly."
+                  } ]
+                }
+              } ]
+            } ]
+          },
+          "function": {
+            "name": "visit_count",
+            "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+          }
+        },
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "GLOBAL",
+              "rhs": {
+                "value": "true"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "a59ddbf5-875b-476e-b877-c56dcda4446a"
+          },
+          "name": "81613cb6-529f-4a81-b2bd-874016027c35",
+          "conditionString": "true"
+        } ],
+        "etag": "687e26be"
+      }
+    }, {
+      "key": "5c6d5103-6ff8-442a-a51e-99bc1597c010",
+      "value": {
+        "displayName": "Delivery ETA Change",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "text": {
+                  "variants": [ {
+                    "text": "Normally when estimated delivery times change it's because the restaurant is very busy and has been unable to deliver against their initial timelines. We are so sorry for the inconvenience. If your food doesn't arrive within the new time window, please let us know or call the takeaway directly."
+                  } ]
+                }
+              } ]
+            } ]
+          },
+          "function": {
+            "name": "visit_count",
+            "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+          }
+        },
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "GLOBAL",
+              "rhs": {
+                "value": "true"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "a59ddbf5-875b-476e-b877-c56dcda4446a"
+          },
+          "name": "f47e02c8-bfdc-4603-8127-50ba3b0ef8c0",
+          "conditionString": "true"
+        } ],
+        "etag": "687e26a7"
+      }
+    }, {
+      "key": "6cb7ca25-c855-42b8-b9b3-f9a5e3ef2374",
+      "value": {
+        "displayName": "Delivery ETA Order Tracking",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "text": {
+                  "variants": [ {
+                    "text": "The delivery/collection ETA is the estimated time of arrival of your order. It considers factors preparation time and the distance of the store from your location. While we strive for accuracy, unforeseen delays can affect the ETA. For a more precise ETA, please contact the store directly to get an accurate ETA on delivery/ collection."
+                  } ]
+                }
+              } ]
+            } ]
+          },
+          "function": {
+            "name": "visit_count",
+            "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+          }
+        },
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "GLOBAL",
+              "rhs": {
+                "value": "true"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "a59ddbf5-875b-476e-b877-c56dcda4446a"
+          },
+          "name": "8359e1c0-97d8-4801-a164-e4430817d2b9",
+          "conditionString": "true"
+        } ],
+        "etag": "687e267a"
+      }
+    }, {
+      "key": "8221996e-6cc4-4b1b-be60-9669dc21ee8a",
+      "value": {
+        "displayName": "Service Appreciation",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "text": {
+                  "variants": [ {
+                    "text": "Thank you for your kind words! We truly appreciate your feedback and are glad to have been of service."
+                  } ]
+                }
+              } ]
+            } ]
+          },
+          "function": {
+            "name": "visit_count",
+            "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+          }
+        },
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "GLOBAL",
+              "rhs": {
+                "value": "true"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "a59ddbf5-875b-476e-b877-c56dcda4446a"
+          },
+          "name": "8fa39a35-bbeb-4dea-b75b-eea452a1e3e8",
+          "conditionString": "true"
+        } ],
+        "etag": "687e2622"
+      }
+    }, {
+      "key": "a59ddbf5-875b-476e-b877-c56dcda4446a",
+      "value": {
+        "displayName": "Routing",
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "LESS_THAN",
+              "lhs": {
+                "member": {
+                  "expressions": [ {
+                    "value": "$session"
+                  }, {
+                    "value": "params"
+                  }, {
+                    "value": "flow_visit_count"
+                  } ]
+                }
+              },
+              "rhs": {
+                "value": "2"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "bc3b091e-8832-4560-8349-60f2785a4712"
+          },
+          "name": "92d13f08-fa21-424a-bdbc-778bc4c61fda",
+          "conditionString": "$session.params.flow_visit_count \u003c 2"
+        }, {
+          "condition": {
+            "restriction": {
+              "comparator": "GREATER_THAN_EQUALS",
+              "lhs": {
+                "member": {
+                  "expressions": [ {
+                    "value": "$session"
+                  }, {
+                    "value": "params"
+                  }, {
+                    "value": "flow_visit_count"
+                  } ]
+                }
+              },
+              "rhs": {
+                "value": "2"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "2fc22bfd-70c6-486e-9b6c-38682a35fc52"
+          },
+          "name": "b7c61ec5-ef0a-418b-900d-f613ffa32302",
+          "conditionString": "$session.params.flow_visit_count \u003e= 2"
+        } ],
+        "etag": "6895de90"
+      }
+    }, {
+      "key": "bc3b091e-8832-4560-8349-60f2785a4712",
+      "value": {
+        "displayName": "Follow up",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "payload": {
+                  "input": {
+                    "options": [ "No, Thank You", "Yes, I need more help" ],
+                    "type": "select"
+                  },
+                  "platform": "ZOHOSALESIQ",
+                  "replies": [ "Is there anything else I can help you with?" ]
+                }
+              } ]
+            } ]
+          }
+        },
+        "transitionEvents": [ {
+          "triggerIntentId": "c8933050-b841-4968-a318-9cb1e6815180",
+          "transitionEventHandler": {
+            "beforeTransition": {
+              "staticUserResponse": {
+                "candidates": [ {
+                  "selector": {
+                    "platform": [ "PLATFORM_UNSPECIFIED" ],
+                    "lang": "en"
+                  },
+                  "responses": [ {
+                    "payload": {
+                      "action": "end",
+                      "platform": "ZOHOSALESIQ",
+                      "replies": [ "Thank you for reaching out to Foodhub. Have a nice day!" ]
+                    }
+                  } ]
+                } ]
+              }
+            },
+            "targetPageId": "END_SESSION"
+          },
+          "name": "79d8aed2-ee2c-4986-a176-c61d5fa34ef3"
+        }, {
+          "triggerIntentId": "b0eb972a-d82a-4077-90a1-bb1739fba6c7",
+          "transitionEventHandler": {
+            "beforeTransition": {
+              "staticUserResponse": {
+                "candidates": [ {
+                  "selector": {
+                    "platform": [ "PLATFORM_UNSPECIFIED" ],
+                    "lang": "en"
+                  },
+                  "responses": [ {
+                    "text": {
+                      "variants": [ {
+                        "text": "How can I help you?"
+                      } ]
+                    }
+                  } ]
+                } ]
+              },
+              "setParameterActions": [ {
+                "parameter": "operation",
+                "value": null
+              } ]
+            },
+            "targetFlowId": "00000000-0000-0000-0000-000000000000"
+          },
+          "name": "d4282b03-9811-42f3-a5f8-ce010d648fe3"
+        }, {
+          "triggerIntentId": "5b64eddb-b99e-4d3e-9c2f-98bd10689226",
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetFlowId": "50aadfd2-61f5-47c2-9e9c-419c3a56857f"
+          },
+          "name": "85570946-3384-4c8d-9313-004e7de2ae39"
+        } ],
+        "etag": "68fb2ae1"
+      }
+    }, {
+      "key": "e5493279-a328-468c-ac15-44784d8cc8d7",
+      "value": {
+        "displayName": "Safe Delivery",
+        "onLoad": {
+          "staticUserResponse": {
+            "candidates": [ {
+              "selector": {
+                "platform": [ "PLATFORM_UNSPECIFIED" ],
+                "lang": "en"
+              },
+              "responses": [ {
+                "text": {
+                  "variants": [ {
+                    "text": "We offer safe delivery. For specific delivery request, you can add a request on the Add instruction section of your basket. Alternately, you can contact the store for your request."
+                  } ]
+                }
+              } ]
+            } ]
+          },
+          "function": {
+            "name": "visit_count",
+            "webhookFulfillmentId": "bba39f6f-f267-4d70-8220-b99e7c2a340b"
+          }
+        },
+        "transitionEvents": [ {
+          "condition": {
+            "restriction": {
+              "comparator": "GLOBAL",
+              "rhs": {
+                "value": "true"
+              }
+            }
+          },
+          "transitionEventHandler": {
+            "beforeTransition": {
+            
+            },
+            "targetPageId": "a59ddbf5-875b-476e-b877-c56dcda4446a"
+          },
+          "name": "126bb9f9-7272-44a1-8cea-885f5ba379ee",
+          "conditionString": "true"
+        } ],
+        "etag": "687e263e"
+      }
+    } ],
+    "fulfillments": [ {
+      "key": "bba39f6f-f267-4d70-8220-b99e7c2a340b",
+      "value": {
+        "id": "bba39f6f-f267-4d70-8220-b99e7c2a340b",
+        "name": "WEBHOOK",
+        "webhook": {
+          "url": "https://foodhub-api.t2sonline.com/consumer/orders/handle/session",
+          "webhookTimeout": 5,
+          "webhookType": "STANDARD",
+          "encryptedUsername": "AXLfIHelCPefjlvvF02rtKwQxYntGoZdvwom828Q9oIG",
+          "encryptedPassword": "AXLfIHeLgWajLWlMkLtESXb6pI1tkq7ODXDh5OPhPngT"
+        },
+        "etag": "688a039c"
+      }
+    } ],
+    "webhooks": [ {
+      "key": "bba39f6f-f267-4d70-8220-b99e7c2a340b",
+      "value": {
+        "name": "projects/-/locations/-/agents/-/webhooks/bba39f6f-f267-4d70-8220-b99e7c2a340b",
+        "displayName": "WEBHOOK",
+        "genericWebService": {
+          "uri": "https://foodhub-api.t2sonline.com/consumer/orders/handle/session",
+          "webhookType": "STANDARD"
+        },
+        "timeout": {
+          "seconds": 5
+        },
+        "etag": "688a039c"
+      }
+    } ]
+  }
+}

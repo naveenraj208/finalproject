@@ -38,15 +38,20 @@ from pydantic import BaseModel
 from memory_manager import MemoryManager
 from prompt_builder import PromptBuilder
 from llm_client import call_model
+from fact_store import detect_and_save_fact, search_facts
 
 app = FastAPI(title="LLM Memory Backend (safe-mac)")
 
 from security_preprocessor import SecurityPreprocessor
+from security_manager import SecurityManager
+from swarm_orchestrator import SwarmOrchestrator
 
 # single, shared instance
+sm = SecurityManager()
 mm = MemoryManager()
 pb = PromptBuilder(mm)
 sp = SecurityPreprocessor()
+so = SwarmOrchestrator()
 
 class ChatMessage(BaseModel):
     conversation_id: str | None = None
@@ -80,10 +85,99 @@ def get_memories(category: str = "stm"):
 
 from tools import TOOL_MAP
 
+@app.get("/facts")
+def get_all_facts_endpoint():
+    from fact_store import get_all_facts
+    return get_all_facts()
+
+
 @app.post("/chat")
 def chat(req: ChatMessage):
-    # -1. Fast-Path Intent Router (Bypass RAG/Tooling for speed)
     query_lower = req.message.lower().strip()
+
+    # ── FACT TEACHING: Detect if user is providing a new fact ────────────────
+    # e.g. "the MLA of Chepauk is Udhayanidhi Stalin"
+    learned = detect_and_save_fact(req.message)
+    if learned:
+        confirm = (
+            f"Got it! I've saved that to my database: "
+            f"The {learned['predicate']} of {learned['subject']} is {learned['value']}. "
+            f"I'll remember this for future queries."
+        )
+        user_mem = mm.add_memory(req.message, parent_id=req.parent_id, conversation_id=req.conversation_id, pinned=req.pinned)
+        mm.add_memory(confirm, parent_id=user_mem["id"], conversation_id=req.conversation_id, is_assistant=True)
+        return {
+            "assistant": confirm,
+            "thought": f"User taught me a new fact: {learned}",
+            "actions": [{"tool": "save_fact", "result": learned}],
+            "security": {"risk_level": "Low", "reason": "Fact-learning path."},
+            "user_memory_id": user_mem["id"]
+        }
+
+    # ── FACT QUERY: Check fact DB before hitting RAG ─────────────────────────
+    # Only treat the message as a fact query if it looks like a question.
+    question_words = {"who", "what", "which", "where", "when", "how", "why", "whose", "whom"}
+    first_word = query_lower.split()[0] if query_lower.split() else ""
+    is_question = query_lower.endswith("?") or first_word in question_words
+
+    raw_fact_hits = search_facts(req.message, top_k=5) if is_question else []
+
+    # Filter facts so that the subject actually overlaps with the query terms.
+    # This prevents answering with unrelated entries (e.g., returning Karnataka
+    # when the user asked about Tamil Nadu).
+    def _tokenize(text: str) -> set[str]:
+        return {t for t in re.split(r"[^a-zA-Z0-9]+", text.lower()) if t}
+
+    query_tokens = _tokenize(req.message)
+    fact_hits = []
+    for f in raw_fact_hits:
+        subject_tokens = _tokenize(f.get("subject", ""))
+        # Require at least one shared token between query and subject.
+        if subject_tokens and (subject_tokens & query_tokens):
+            fact_hits.append(f)
+
+    if fact_hits:
+        # Build a direct answer from saved facts (including conflicts).
+        # If multiple values exist for the same (subject,predicate), we cite the
+        # oldest as the DB baseline, and mention the other taught values as
+        # "also".
+        fact_groups: dict[tuple[str, str], list[dict]] = {}
+        for f in fact_hits:
+            key = (f["subject"], f["predicate"])
+            fact_groups.setdefault(key, []).append(f)
+
+        fact_lines: list[str] = []
+        for (subject, predicate), group in fact_groups.items():
+            # ISO8601 timestamps sort lexicographically in UTC.
+            ordered = sorted(group, key=lambda x: x.get("created_at", ""))
+            canonical = ordered[0]["value"] if ordered else ""
+            others = [x["value"] for x in ordered[1:]]
+            # Keep order but avoid repeating the same value.
+            uniq_others = []
+            for v in others:
+                if v not in uniq_others:
+                    uniq_others.append(v)
+
+            if uniq_others:
+                also = ", ".join(uniq_others)
+                fact_lines.append(
+                    f"According to my database, the {predicate} of {subject} is {canonical}, but I also have it as {also}."
+                )
+            else:
+                fact_lines.append(f"The {predicate} of {subject} is {canonical}.")
+
+        fact_reply = "Based on information stored in my database:\n- " + "\n- ".join(fact_lines)
+        user_mem = mm.add_memory(req.message, parent_id=req.parent_id, conversation_id=req.conversation_id, pinned=req.pinned)
+        mm.add_memory(fact_reply, parent_id=user_mem["id"], conversation_id=req.conversation_id, is_assistant=True)
+        return {
+            "assistant": fact_reply,
+            "thought": f"Retrieved {len(fact_hits)} fact(s) from the fact database.",
+            "actions": [{"tool": "search_facts", "result": fact_hits}],
+            "security": {"risk_level": "Low", "reason": "Fact-retrieval path."},
+            "user_memory_id": user_mem["id"]
+        }
+
+    # -1. Fast-Path Intent Router (Bypass RAG/Tooling for speed)
     fast_intents = ["hi", "hello", "hey", "who are you", "what are you", "help", "how are you"]
     if len(query_lower) < 25 and any(i in query_lower for i in fast_intents):
         # Skip heavy Security/FAISS PyTorch embeddings entirely!
@@ -108,19 +202,59 @@ def chat(req: ChatMessage):
             "actions": []
         }
 
-    # 1. store user message
+    # 1. Multi-Turn Security Analysis
+    recent_mems = mm.get_memories(category="stm", conversation_id=req.conversation_id)
+    recent_texts = [m["text"] for m in recent_mems][:3] # Last 3 messages
+    multi_turn_report = sm.analyze_multi_turn(recent_texts + [req.message])
+    
+    if multi_turn_report["risk_level"] == "High":
+        # Evict all recent toxic memory
+        for m in recent_mems[:3]:
+            mm.evict_memory(m["id"])
+        # Quarantine the trigger prompt
+        sm.quarantine_prompt(req.message, multi_turn_report["reason"])
+        return {
+            "assistant": "[SECURITY ALERT]: Multi-turn manipulation attempt detected. Thread quarantined and memories evicted.",
+            "security": multi_turn_report,
+            "thought": "Security override triggered due to multi-turn coercive pattern.",
+            "actions": []
+        }
+
+    # 2. store user message
     user_mem = mm.add_memory(req.message, parent_id=req.parent_id, conversation_id=req.conversation_id, pinned=req.pinned)
 
-    # 2. First Pass: Get Thought and potential Tool Call
+    # 4. Swarm Intelligence Check
+    if so.needs_swarm(req.message):
+        # We need context for the swarm
+        mem_contexts = mm.retrieve_context_for_prompt(req.message, conversation_id=req.conversation_id, top_k=4)
+        context_block = "\n".join(mem_contexts) if mem_contexts else "No prior context."
+        
+        swarm_result = so.execute_swarm(req.message, context_block)
+        
+        # Save final response
+        assistant_mem = mm.add_memory(swarm_result["final_response"], parent_id=user_mem["id"], conversation_id=req.conversation_id, pinned=False, is_assistant=True)
+        mm.ensure_within_budget()
+        
+        return {
+            "assistant": swarm_result["final_response"],
+            "thought": "Triggered Multi-Agent Swarm Intelligence due to query complexity.",
+            "swarm_data": swarm_result["swarm_reports"], # NEW FIELD FOR UI
+            "actions": [],
+            "security": sec_report,
+            "user_memory_id": user_mem["id"]
+        }
+
+    # 5. First Pass: Get Thought and potential Tool Call (Standard single-agent path)
     prompt = pb.build(
         user_query=req.message, 
         conversation_id=req.conversation_id, 
         mode=req.mode, 
         sentient=req.sentient,
-        custom_agent=req.custom_agent
+        custom_agent=req.custom_agent,
+        dynamic_guardrails=dynamic_guardrails
     )
-    if sec_report["risk_level"] == "Medium":
-        prompt = "[SECURITY WARNING]: Sensitive request detected.\n" + prompt
+    if sec_report["risk_level"] == "Medium" or multi_turn_report["risk_level"] == "Medium":
+        prompt = "[SECURITY WARNING]: Sensitive request or pattern detected. Follow guardrails closely.\n" + prompt
 
     try:
         raw_response = call_model(prompt)

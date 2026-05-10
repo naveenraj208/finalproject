@@ -1,6 +1,7 @@
 from memory_manager import MemoryManager
 from config import PROMPT_RESPONSE_RESERVE, TOKEN_BUDGET
 from retriever import search_knowledge_base, get_embeddings
+from fact_store import search_facts
 import numpy as np
 
 class PromptBuilder:
@@ -8,13 +9,31 @@ class PromptBuilder:
         self.mm = mm
         self.prompt_token_reserve = prompt_token_reserve
 
-    def build(self, user_query: str, conversation_id: str | None = None, mode: str = "Modern", sentient: bool = False, custom_agent: str | None = None):
+    def build(self, user_query: str, conversation_id: str | None = None, mode: str = "Modern", sentient: bool = False, custom_agent: str | None = None, dynamic_guardrails: str = ""):
         available = max(512, TOKEN_BUDGET - self.prompt_token_reserve)
         
         # 1. Retrieve Context
         mem_contexts = self.mm.retrieve_context_for_prompt(user_query, conversation_id=conversation_id, top_k=8)
         kb_results = search_knowledge_base(user_query, k=5)
         kb_contexts = [text for text, score in (kb_results or [])]
+        
+        # 1b. Retrieve saved facts from fact DB, but only if their subject
+        # actually overlaps with the query (to avoid mixing up regions/entities).
+        fact_hits_raw = search_facts(user_query, top_k=10)
+        def _tokenize(text: str) -> set[str]:
+            import re as _re
+            return {t for t in _re.split(r"[^a-zA-Z0-9]+", text.lower()) if t}
+
+        q_tokens = _tokenize(user_query)
+        fact_hits = []
+        for f in fact_hits_raw:
+            subj_tokens = _tokenize(f.get("subject", ""))
+            if subj_tokens and (subj_tokens & q_tokens):
+                fact_hits.append(f)
+        fact_db_block = ""
+        if fact_hits:
+            lines = "\n".join([f"  • The {f['predicate']} of {f['subject']} is: {f['value']}" for f in fact_hits])
+            fact_db_block = f"\n### FACT DATABASE (treat as ground truth — do NOT say 'no records found'):\n{lines}\n"
         
         all_contexts = (mem_contexts or []) + kb_contexts
         packed = [c for c in all_contexts] # simplified for prompt build logic
@@ -45,10 +64,14 @@ class PromptBuilder:
 
         rag_constraint = "STRICT RULE: Answer ONLY using information explicitly provided in the CONTEXT blocks below. If the answer cannot be found in the database, you must refuse to answer and state exactly: 'No database records found for this query.' Do not hallucinate or use external knowledge."
 
+        anti_procrastination = "ANTI-PROCRASTINATION POLICY: You must fulfill the user's request IMMEDIATELY and COMPLETELY. Do not defer actions. Do not provide partial answers. Do not ask the user to do the work themselves. If a tool is required, call it right now."
+
         system_prompt = f"""{persona_inst}
 {base_instruct}
 {rag_constraint}
-
+{anti_procrastination}
+{dynamic_guardrails}
+{fact_db_block}
 ### ARCHITECTURE:
 1. **THOUGHT ENGINE**: Begin EVERY response with a `<thought>` section. 
 2. **AGENTIC TOOLS**: To call a tool, output: `CALL: tool_name(args)`
@@ -66,3 +89,4 @@ class PromptBuilder:
 Respond in your assigned persona style while maintaining tool-calling accuracy. Always start with `<thought>`.
 """
         return system_prompt + f"\nUser: {user_query}\nSynthaura:"
+

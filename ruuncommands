@@ -1,0 +1,12 @@
+Terminal 1: Start the Backend (FastAPI / Core Neural Engine)
+This starts the backend memory manager, security layers, and LLM integrations.
+
+bash
+source venv/bin/activate && python app.py
+Wait for it to say Application startup complete.
+
+Terminal 2: Start the Frontend (Streamlit UI)
+This starts the 10-theme multiverse UI and connects to your backend.
+
+bash
+source venv/bin/activate && streamlit run chat_ui.py

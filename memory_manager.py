@@ -40,6 +40,16 @@ class MemoryManager:
             
         return {"id": row.id}
 
+    def evict_memory(self, memory_id: str):
+        """Remove a memory permanently (Eviction) usually due to security risk."""
+        db = SessionLocal()
+        mem = db.query(MemoryRow).filter(MemoryRow.id == memory_id).first()
+        if mem:
+            db.delete(mem)
+            db.commit()
+            self._context_cache.clear()
+        db.close()
+
     def _all_rows(self):
         db = SessionLocal()
         rows = db.query(MemoryRow).all()

@@ -439,6 +439,14 @@ if submitted and cmd:
                 
                 if data.get('thought'):
                     with st.expander("Analysis Trace"): st.write(data['thought'])
+                    
+                if data.get('swarm_data'):
+                    with st.expander("🧠 Swarm Intelligence Debate", expanded=True):
+                        st.markdown("### The City Council has assembled to solve this complex query.")
+                        for rep in data['swarm_data']:
+                            st.markdown(f"**[{rep['agent']}]**:\n{rep['report']}")
+                            st.divider()
+                            
                 for a in data.get('actions', []):
                     st.info(f"System Action: {a['tool']} -> {a['result']}")
             else:

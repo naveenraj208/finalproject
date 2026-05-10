@@ -1,5 +1,8 @@
+INFO:     Will watch for changes in these directories: ['/Users/naveen/Downloads/finalproject']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [26448] using WatchFiles
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 13295.17it/s]
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 14092.75it/s]
 [1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
 Key                     | Status     |  | 
 ------------------------+------------+--+-
@@ -7,88 +10,287 @@ embeddings.position_ids | UNEXPECTED |  |
 
 Notes:
 - UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
-INFO:     Started server process [60741]
+INFO:     Started server process [26492]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-INFO:     127.0.0.1:59355 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59356 - "POST /chat HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59611 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59614 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59937 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59938 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59939 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59940 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59941 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59942 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59943 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59944 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59945 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59947 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59948 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59949 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59950 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59951 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:59952 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60201 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60203 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60204 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60206 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60207 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60208 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60263 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60264 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60265 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60266 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60267 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60268 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60270 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60271 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60272 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60273 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60274 - "GET /memories?category=ltm HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60282 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60284 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60285 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60288 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60289 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60292 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60295 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60296 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60297 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60298 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60299 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60300 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60302 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60303 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60304 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60317 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60318 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60319 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60320 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60321 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60322 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60324 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60325 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60326 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60328 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60329 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60330 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60331 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60332 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60333 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60665 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60666 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60667 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60670 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60671 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60672 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60674 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60675 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60676 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60677 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60679 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60680 - "GET /stats HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60681 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60682 - "GET /hardware_metrics HTTP/1.1" 200 OK
-INFO:     127.0.0.1:60683 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61556 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61557 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61720 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61721 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61722 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61767 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61768 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61802 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61803 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61804 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61839 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61840 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61856 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61858 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61859 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61883 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61884 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61918 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61919 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61920 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61938 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61939 - "GET /stats HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fact_store.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [26492]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 11357.41it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+INFO:     Started server process [27037]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'fact_store.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [27037]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 16468.94it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+WARNING:  WatchFiles detected changes in 'app.py'. Reloading...
+INFO:     Started server process [33415]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [33415]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 25756.47it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+WARNING:  WatchFiles detected changes in 'test_fact_store.py'. Reloading...
+INFO:     Started server process [33432]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [33432]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 23743.52it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+INFO:     Started server process [33440]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:64679 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64681 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64700 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64701 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64702 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64752 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64753 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64985 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64986 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64987 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64996 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64997 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65029 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65030 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65031 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65048 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65049 - "GET /stats HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [33440]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:  WatchFiles detected changes in 'prompt_builder.py'. Reloading...
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 11357.71it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+INFO:     Started server process [34120]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [34120]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 26560.92it/s]
+[1mBertModel LOAD REPORT[0m from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+INFO:     Started server process [34139]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:65261 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65262 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65263 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65292 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65293 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65317 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65318 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65319 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65334 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65335 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65372 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65373 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65374 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65389 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65390 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50095 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50097 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50249 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50251 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50259 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50261 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50262 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50263 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50266 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50267 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50270 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50271 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50273 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50274 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50276 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50277 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50279 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50280 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50807 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50809 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50810 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50851 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50853 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50863 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50864 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51730 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51732 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52622 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52623 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52624 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52673 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52674 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53931 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53933 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54022 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54023 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54024 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54027 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54028 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54029 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54033 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54035 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54036 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54050 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54051 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54124 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54125 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54134 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54135 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54142 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54143 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54144 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54176 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54177 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54201 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54202 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54203 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54237 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54238 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54352 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54353 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54354 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54387 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54388 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54446 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54447 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54452 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54455 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54448 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54498 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54499 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54500 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54501 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54503 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54518 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54519 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54520 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54530 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54531 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54544 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54545 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54546 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54547 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54548 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54559 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54561 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54562 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54563 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54564 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54573 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54574 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54575 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54576 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54577 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54750 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54751 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54752 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54753 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54754 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54763 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54764 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54795 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54796 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54797 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54798 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54799 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54805 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54806 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54815 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54816 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54817 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54818 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54819 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54889 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54891 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54906 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54908 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54909 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54910 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54912 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54920 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54921 - "GET /stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54922 - "POST /chat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54923 - "GET /hardware_metrics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54924 - "GET /stats HTTP/1.1" 200 OK
