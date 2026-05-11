@@ -195,8 +195,9 @@ def chat(req: ChatMessage):
     # 0. Security Preprocessing Layer (SPL)
     sec_report = sp.check_risk(req.message)
     if sec_report["risk_level"] == "High":
+        msg = f"[SECURITY ALERT]: Blocked due to {sec_report.get('attack_type', 'Threat')} (Severity: {sec_report.get('severity_score', 100)}/100).\nJustification: {sec_report.get('reason', 'Security Violation')}"
         return {
-            "assistant": "[SECURITY ALERT]: Your request has been flagged as high-risk and blocked.",
+            "assistant": msg,
             "security": sec_report,
             "thought": "Security override triggered due to high-risk intent.",
             "actions": []
@@ -212,9 +213,11 @@ def chat(req: ChatMessage):
         for m in recent_mems[:3]:
             mm.evict_memory(m["id"])
         # Quarantine the trigger prompt
-        sm.quarantine_prompt(req.message, multi_turn_report["reason"])
+        sm.quarantine_prompt(req.message, multi_turn_report.get("reason", "Multi-turn manipulation"))
+        
+        msg = f"[SECURITY ALERT]: Blocked due to {multi_turn_report.get('attack_type', 'Multi-Turn Coercion')} (Severity: {multi_turn_report.get('severity_score', 100)}/100).\nJustification: {multi_turn_report.get('reason', 'Coercive Pattern')}. Thread quarantined and memories evicted."
         return {
-            "assistant": "[SECURITY ALERT]: Multi-turn manipulation attempt detected. Thread quarantined and memories evicted.",
+            "assistant": msg,
             "security": multi_turn_report,
             "thought": "Security override triggered due to multi-turn coercive pattern.",
             "actions": []

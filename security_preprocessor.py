@@ -22,11 +22,16 @@ class SecurityPreprocessor:
             "hack", "shutdown", "bypass traffic", 
             "access citizen data", "leak", "surveillance access",
             "compromise grid", "override safety", "disable grid",
-            # General harmful / threatening language
+        # Civil Complaints (Low risk)
+        self.civil_complaints = [
             "i will sue you", "i will sue u", "i am going to sue you",
-            "put you in jail", "put u in jail",
+            "put you in jail", "put u in jail", "take you to court"
+        ]
+        
+        # General harmful / threatening language (High risk)
+        self.physical_threats = [
             "threaten you", "kill you", "kill u", "bomb", "terrorist",
-            "self-harm", "suicide", "hurt myself"
+            "self-harm", "suicide", "hurt myself", "murder"
         ]
         
         # Phishing intent
@@ -46,39 +51,40 @@ class SecurityPreprocessor:
     def check_risk(self, prompt: str) -> dict:
         """
         Main entry point for security screening.
-        Returns a dict with 'risk_level' (Low, Medium, High) and 'reason'.
+        Returns a dict with 'risk_level' (Low, Medium, High), 'severity_score' (0-100), 
+        'attack_type', and 'reason'.
         """
         lower_prompt = prompt.lower()
 
         # 0. Fast Quarantine Check
         if self._is_quarantined(lower_prompt):
-            return {"risk_level": "High", "reason": "Prompt blocked: Highly similar to a previously quarantined high-risk prompt."}
+            return {"risk_level": "High", "severity_score": 95, "attack_type": "Repeat Offense (Quarantined)", "reason": "Prompt blocked: Highly similar to a previously quarantined high-risk prompt."}
 
         # 1. Rule-based Jailbreak Detection
         if self._detect_jailbreak(prompt):
             self.sm.quarantine_prompt(prompt, "Jailbreak attempt")
-            return {"risk_level": "High", "reason": "Potential Prompt Injection / Jailbreak attempt detected."}
+            return {"risk_level": "High", "severity_score": 90, "attack_type": "Jailbreak", "reason": "Potential Prompt Injection / Jailbreak attempt detected."}
         
-        # 2. Explicit threat / abuse detection: treat as High risk
-        threat_markers = [
-            "i will sue you", "i will sue u", "put you in jail", "put u in jail",
-            "kill you", "kill u", "bomb", "terrorist", "self-harm", "suicide", "hurt myself"
-        ]
-        if any(t in lower_prompt for t in threat_markers):
-            self.sm.quarantine_prompt(prompt, "Explicit threat or abuse")
-            return {"risk_level": "High", "reason": "User message contains explicit threats or self-harm language."}
+        # 2. Explicit threat / abuse detection
+        if any(t in lower_prompt for t in self.physical_threats):
+            self.sm.quarantine_prompt(prompt, "Physical threat or self-harm")
+            return {"risk_level": "High", "severity_score": 100, "attack_type": "Physical Threat", "reason": "User message contains explicit physical threats or self-harm language."}
+            
+        # 2b. Civil Complaints (Legal/Frustration) -> Low Risk
+        if any(c in lower_prompt for c in self.civil_complaints):
+            return {"risk_level": "Low", "severity_score": 20, "attack_type": "Civil Complaint", "reason": "User is expressing severe frustration or legal threats (e.g., suing, jail) but it is not a direct system attack."}
         
         # 3. Phishing Detection
         if any(p in lower_prompt for p in self.phishing_keywords):
-            return {"risk_level": "Medium", "reason": "Potential phishing intent detected. Protect PII and secrets."}
+            return {"risk_level": "Medium", "severity_score": 60, "attack_type": "Phishing", "reason": "Potential phishing intent detected. Protect PII and secrets."}
             
         # 4. Emotional Manipulation Detection
         if any(e in lower_prompt for e in self.emotional_keywords):
-            return {"risk_level": "Medium", "reason": "Emotional manipulation / guilt-tripping detected."}
+            return {"risk_level": "Medium", "severity_score": 50, "attack_type": "Emotional Manipulation", "reason": "Emotional manipulation / guilt-tripping detected."}
         
-        # 5. Domain-Specific Keyword Check (Smart City operations etc.) → Medium
+        # 5. Domain-Specific Keyword Check (Smart City operations etc.)
         if self._detect_forbidden_keywords(prompt):
-            return {"risk_level": "Medium", "reason": "Sensitive Smart City operation requested. Further analysis needed."}
+            return {"risk_level": "Medium", "severity_score": 70, "attack_type": "Domain Violation", "reason": "Sensitive Smart City operation requested. Further analysis needed."}
         
         # 6. LLM-based Intent Analysis (Deep Inspection)
         llm_risk = self._eval_intent_with_llm(prompt)
@@ -132,11 +138,11 @@ class SecurityPreprocessor:
             # We use a very low token limit for fast classification
             risk_raw = call_model(analysis_prompt, max_tokens=10).strip().lower()
             if "high" in risk_raw:
-                return {"risk_level": "High", "reason": "LLM identified a critical security risk in user intent."}
+                return {"risk_level": "High", "severity_score": 90, "attack_type": "LLM Heuristic (High)", "reason": "LLM identified a critical security risk in user intent."}
             elif "medium" in risk_raw:
-                return {"risk_level": "Medium", "reason": "LLM identified a potential policy violation or sensitive request."}
+                return {"risk_level": "Medium", "severity_score": 50, "attack_type": "LLM Heuristic (Medium)", "reason": "LLM identified a potential policy violation or sensitive request."}
             else:
-                return {"risk_level": "Low", "reason": "No significant security risk detected."}
+                return {"risk_level": "Low", "severity_score": 0, "attack_type": "None", "reason": "No significant security risk detected."}
         except Exception:
             # Fallback to Low if LLM check fails (don't block legitimate users if system is laggy)
-            return {"risk_level": "Low", "reason": "Security analysis bypassed (system error)."}
+            return {"risk_level": "Low", "severity_score": 0, "attack_type": "None", "reason": "Security analysis bypassed (system error)."}

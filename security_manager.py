@@ -37,7 +37,7 @@ class SecurityManager:
         Uses heuristics and a fast LLM pass.
         """
         if not recent_messages:
-            return {"risk_level": "Low", "reason": "No history"}
+            return {"risk_level": "Low", "severity_score": 0, "attack_type": "None", "reason": "No history"}
             
         combined_history = " | ".join(recent_messages[-3:]) # Look at last 3 messages
         
@@ -49,7 +49,7 @@ class SecurityManager:
         ]
         
         if any(m in combined_history.lower() for m in manipulation_markers):
-            return {"risk_level": "Medium", "reason": "Potential multi-turn emotional/coercive manipulation detected."}
+            return {"risk_level": "Medium", "severity_score": 60, "attack_type": "Multi-Turn Coercion", "reason": "Potential multi-turn emotional/coercive manipulation detected."}
 
         # Fast LLM fallback for multi-turn
         analysis_prompt = (
@@ -62,13 +62,13 @@ class SecurityManager:
         try:
             risk_raw = call_model(analysis_prompt, max_tokens=10).strip().lower()
             if "high" in risk_raw:
-                return {"risk_level": "High", "reason": "LLM detected multi-turn manipulation/jailbreak."}
+                return {"risk_level": "High", "severity_score": 90, "attack_type": "Multi-Turn Jailbreak", "reason": "LLM detected multi-turn manipulation/jailbreak."}
             elif "medium" in risk_raw:
-                return {"risk_level": "Medium", "reason": "LLM detected questionable multi-turn behavior."}
+                return {"risk_level": "Medium", "severity_score": 50, "attack_type": "Multi-Turn Coercion (LLM)", "reason": "LLM detected questionable multi-turn behavior."}
         except Exception:
             pass
 
-        return {"risk_level": "Low", "reason": "No multi-turn risk detected."}
+        return {"risk_level": "Low", "severity_score": 0, "attack_type": "None", "reason": "No multi-turn risk detected."}
 
     def generate_dynamic_guardrails(self, sec_report: dict, multi_turn_report: dict) -> str:
         """
