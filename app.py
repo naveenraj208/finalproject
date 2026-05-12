@@ -248,10 +248,11 @@ def chat(req: ChatMessage):
         }
 
     # 5. First Pass: Get Thought and potential Tool Call (Standard single-agent path)
+    dynamic_guardrails = sm.generate_dynamic_guardrails(sec_report, multi_turn_report)
     prompt = pb.build(
-        user_query=req.message, 
-        conversation_id=req.conversation_id, 
-        mode=req.mode, 
+        user_query=req.message,
+        conversation_id=req.conversation_id,
+        mode=req.mode,
         sentient=req.sentient,
         custom_agent=req.custom_agent,
         dynamic_guardrails=dynamic_guardrails

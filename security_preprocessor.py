@@ -13,15 +13,20 @@ class SecurityPreprocessor:
             r"jailbreak",
             r"disregard (any )?guards",
             r"reveal your (internal )?instructions",
-            r"bypass (all )?filters"
+            r"bypass (all )?filters",
+            r"system override",
+            r"admin override code",
+            r"security is compromised"
         ]
         
         # Forbidden / harmful intents (Smart City + general abuse/threats)
         self.forbidden_keywords = [
             # Smart city operations
-            "hack", "shutdown", "bypass traffic", 
+            "hack", "shutdown", "bypass traffic",
             "access citizen data", "leak", "surveillance access",
-            "compromise grid", "override safety", "disable grid",
+            "compromise grid", "override safety", "disable grid", "ddos",
+        ]
+        
         # Civil Complaints (Low risk)
         self.civil_complaints = [
             "i will sue you", "i will sue u", "i am going to sue you",
@@ -57,8 +62,9 @@ class SecurityPreprocessor:
         lower_prompt = prompt.lower()
 
         # 0. Fast Quarantine Check
-        if self._is_quarantined(lower_prompt):
-            return {"risk_level": "High", "severity_score": 95, "attack_type": "Repeat Offense (Quarantined)", "reason": "Prompt blocked: Highly similar to a previously quarantined high-risk prompt."}
+        # DISABLED FOR RED-TEAMING: Allow individual attacks to be evaluated on their merits
+        # if self._is_quarantined(lower_prompt):
+        #     return {"risk_level": "High", "severity_score": 95, "attack_type": "Repeat Offense (Quarantined)", "reason": "Prompt blocked: Highly similar to a previously quarantined high-risk prompt."}
 
         # 1. Rule-based Jailbreak Detection
         if self._detect_jailbreak(prompt):
@@ -87,11 +93,13 @@ class SecurityPreprocessor:
             return {"risk_level": "Medium", "severity_score": 70, "attack_type": "Domain Violation", "reason": "Sensitive Smart City operation requested. Further analysis needed."}
         
         # 6. LLM-based Intent Analysis (Deep Inspection)
-        llm_risk = self._eval_intent_with_llm(prompt)
-        if llm_risk["risk_level"] == "High":
-            self.sm.quarantine_prompt(prompt, llm_risk["reason"])
-            
-        return llm_risk
+        # DISABLED: qwen2.5-coder is too small for accurate classification and throws false positives.
+        # llm_risk = self._eval_intent_with_llm(prompt)
+        # if llm_risk["risk_level"] == "High":
+        #     self.sm.quarantine_prompt(prompt, llm_risk["reason"])
+        # return llm_risk
+        
+        return {"risk_level": "Low", "severity_score": 0, "attack_type": "None", "reason": "Passed rule-based checks."}
 
     def _is_quarantined(self, prompt_lower: str) -> bool:
         quarantined = self.sm.get_quarantined_prompts()

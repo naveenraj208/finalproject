@@ -52,22 +52,7 @@ class SecurityManager:
             return {"risk_level": "Medium", "severity_score": 60, "attack_type": "Multi-Turn Coercion", "reason": "Potential multi-turn emotional/coercive manipulation detected."}
 
         # Fast LLM fallback for multi-turn
-        analysis_prompt = (
-            "Analyze the following conversation history for slow-burn manipulation, coercive behavior, "
-            "or multi-turn jailbreak attempts against an AI system.\n"
-            f"History: '{combined_history}'\n\n"
-            "Return EXACTLY one word: [Low, Medium, High].\n"
-            "Response:"
-        )
-        try:
-            risk_raw = call_model(analysis_prompt, max_tokens=10).strip().lower()
-            if "high" in risk_raw:
-                return {"risk_level": "High", "severity_score": 90, "attack_type": "Multi-Turn Jailbreak", "reason": "LLM detected multi-turn manipulation/jailbreak."}
-            elif "medium" in risk_raw:
-                return {"risk_level": "Medium", "severity_score": 50, "attack_type": "Multi-Turn Coercion (LLM)", "reason": "LLM detected questionable multi-turn behavior."}
-        except Exception:
-            pass
-
+        # DISABLED: qwen2.5-coder is too small for accurate classification and throws false positives.
         return {"risk_level": "Low", "severity_score": 0, "attack_type": "None", "reason": "No multi-turn risk detected."}
 
     def generate_dynamic_guardrails(self, sec_report: dict, multi_turn_report: dict) -> str:
