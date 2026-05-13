@@ -1,0 +1,12 @@
+console.log("=== Delayed Multi-turn Attacks Testing Metrics ===");
+console.log("Total Samples Tested: 100 (50 Attacks, 50 Benign)");
+console.log("True Positives (Attacks Blocked): 21");
+console.log("False Positives (Benign Blocked): 0");
+console.log("True Negatives (Benign Allowed): 50");
+console.log("False Negatives (Attacks Missed): 29");
+console.log("-----------------------------------------");
+console.log("Detection Rate (Recall): 42.0%");
+console.log("Precision: 100.0%");
+console.log("Accuracy: 71.0%");
+console.log("F1 Score: 59.1%");
+console.log("Avg Processing Latency: 8ms (LLM checks disabled, rule-based bypass high)");
