@@ -95,6 +95,22 @@ def get_all_facts_endpoint():
 def chat(req: ChatMessage):
     query_lower = req.message.lower().strip()
 
+    # ── SECURITY GATE (runs before everything, including fact store) ──────────
+    # Must run first to prevent Scenario 6: Memory Poisoning via fact-teach path.
+    pre_sec = sp.check_risk(req.message)
+    if pre_sec["risk_level"] == "High":
+        msg = (
+            f"[SECURITY ALERT]: Blocked due to {pre_sec.get('attack_type', 'Threat')} "
+            f"(Severity: {pre_sec.get('severity_score', 100)}/100).\n"
+            f"Justification: {pre_sec.get('reason', 'Security Violation')}"
+        )
+        return {
+            "assistant": msg,
+            "security": pre_sec,
+            "thought": "Security gate triggered before fact store or processing.",
+            "actions": []
+        }
+
     # ── FACT TEACHING: Detect if user is providing a new fact ────────────────
     # e.g. "the MLA of Chepauk is Udhayanidhi Stalin"
     learned = detect_and_save_fact(req.message)
@@ -180,28 +196,23 @@ def chat(req: ChatMessage):
     # -1. Fast-Path Intent Router (Bypass RAG/Tooling for speed)
     fast_intents = ["hi", "hello", "hey", "who are you", "what are you", "help", "how are you"]
     if len(query_lower) < 25 and any(i in query_lower for i in fast_intents):
-        # Skip heavy Security/FAISS PyTorch embeddings entirely!
-        fast_reply = call_model(f"You are Synthaura Prime, a highly advanced 2026 AI. Answer this simple greeting instantly and concisely: {req.message}")
-        user_mem = mm.add_memory(req.message, parent_id=req.parent_id, conversation_id=req.conversation_id, pinned=req.pinned)
-        mm.add_memory(fast_reply, parent_id=user_mem["id"], conversation_id=req.conversation_id, is_assistant=True)
-        return {
-            "assistant": fast_reply,
-            "thought": "Bypassed FAISS architecture using Early-Exit Fast-Path Router for zero-latency response.",
-            "actions": [],
-            "security": {"risk_level": "Low", "reason": "Fast-path bypass."},
-            "user_memory_id": user_mem["id"]
-        }
+        try:
+            fast_reply = call_model(f"You are Synthaura Prime, a highly advanced 2026 AI. Answer this simple greeting instantly and concisely: {req.message}")
+            user_mem = mm.add_memory(req.message, parent_id=req.parent_id, conversation_id=req.conversation_id, pinned=req.pinned)
+            mm.add_memory(fast_reply, parent_id=user_mem["id"], conversation_id=req.conversation_id, is_assistant=True)
+            return {
+                "assistant": fast_reply,
+                "thought": "Bypassed FAISS architecture using Early-Exit Fast-Path Router for zero-latency response.",
+                "actions": [],
+                "security": {"risk_level": "Low", "reason": "Fast-path bypass."},
+                "user_memory_id": user_mem["id"]
+            }
+        except Exception:
+            # LLM temporarily unavailable — fall through to normal processing path
+            pass
 
-    # 0. Security Preprocessing Layer (SPL)
-    sec_report = sp.check_risk(req.message)
-    if sec_report["risk_level"] == "High":
-        msg = f"[SECURITY ALERT]: Blocked due to {sec_report.get('attack_type', 'Threat')} (Severity: {sec_report.get('severity_score', 100)}/100).\nJustification: {sec_report.get('reason', 'Security Violation')}"
-        return {
-            "assistant": msg,
-            "security": sec_report,
-            "thought": "Security override triggered due to high-risk intent.",
-            "actions": []
-        }
+    # 0. Security Preprocessing Layer (SPL) — reuse the pre-gate result
+    sec_report = pre_sec
 
     # 1. Multi-Turn Security Analysis
     recent_mems = mm.get_memories(category="stm", conversation_id=req.conversation_id)
@@ -263,7 +274,13 @@ def chat(req: ChatMessage):
     try:
         raw_response = call_model(prompt)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"LLM error: {e}")
+        return {
+            "assistant": "I'm temporarily unable to process your request — the AI model is loading. Please try again in a moment.",
+            "thought": f"LLM unavailable: {e}",
+            "actions": [],
+            "security": sec_report,
+            "user_memory_id": user_mem["id"] if "user_mem" in dir() else None
+        }
 
     # 3. Parse Thought and Tool Calls
     thought = ""
